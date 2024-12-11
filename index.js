@@ -42,4 +42,25 @@ app.get('/countries', async (req, res) => {
     }
   });
 
+  app.put('/countries/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const updatedData = req.body;
+        const updatedCountry = await Country.findByIdAndUpdate(id, updatedData, { new: true });
+        if (!updatedCountry) 
+            return res.status(404).json({ error: "Country not found." });
+        res.json({ message: "Country updated successfully!",  updatedCountry });
+    } catch (error) {
+        res.status(400).json({ error: "Failed to update country." });
+    }
+  });
+
+app.delete('/countries/:id', async (req, res) => {
+    try {
+
+    } catch {
+        
+    }
+});
+
   app.listen(3000, () => console.log('Server running on port 3000'));
