@@ -36,7 +36,7 @@ app.get('/countries', async (req, res) => {
     try {
         const newCountry = new Country(req.body);
         await newCountry.save();
-        res.json(newCountry);
+        res.json({ message: "Country added sucessfully", newCountry });
     } catch (error) {
         res.status(400).json({ error: "Failed to create new country." });
     }
@@ -57,9 +57,13 @@ app.get('/countries', async (req, res) => {
 
 app.delete('/countries/:id', async (req, res) => {
     try {
-
-    } catch {
-        
+        const { id } = req.params;
+        const deletedCountry = await Country.findByIdAndDelete(id);
+        if (!deletedCountry) 
+            return res.status(404).json({ error: "Country not found." });
+        res.json({ message: "Country deleted successfully!", country: deletedCountry });
+    } catch (error) {
+        res.status(500).json({ error: "Failed to delete country." });
     }
 });
 
