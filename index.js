@@ -32,4 +32,14 @@ app.get('/countries', async (req, res) => {
     }
   });
 
+  app.post('/countries', async (req, res) => {
+    try {
+        const newCountry = new Country(req.body);
+        await newCountry.save();
+        res.json(newCountry);
+    } catch (error) {
+        res.status(400).json({ error: "Failed to create new country." });
+    }
+  });
+
   app.listen(3000, () => console.log('Server running on port 3000'));
