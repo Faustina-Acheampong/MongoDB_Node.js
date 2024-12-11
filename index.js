@@ -22,4 +22,14 @@ const countrySchema = new mongoose.Schema({
 
 const Country = mongoose.model('Country', countrySchema);
 
+// Routes
+app.get('/countries', async (req, res) => {
+    try {
+      const countries = await Country.find();
+      res.json(countries);
+    } catch (err) {
+      res.status(500).json({ error: "Failed to get countries." });
+    }
+  });
+
   app.listen(3000, () => console.log('Server running on port 3000'));
